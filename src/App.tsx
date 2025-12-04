@@ -13,8 +13,6 @@ import { ThemeProvider } from "next-themes";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
-import ForgotPassword from "./pages/ForgotPassword";
-import ResetPassword from "./pages/ResetPassword";
 
 // Dashboard pages
 import Overview from "./pages/dashboard/Overview";
@@ -50,8 +48,6 @@ const App = () => (
                     <Route path="/" element={<Navigate to="/login" replace />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
-                    <Route path="/forgot-password" element={<ForgotPassword />} />
-                    <Route path="/reset-password" element={<ResetPassword />} />
 
                     {/* Protected dashboard */}
                     <Route path="/dashboard" element={
