@@ -131,7 +131,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (error) {
         console.warn('Profile fetch error:', error.message);
-        // Don't clear profile on error - keep existing if any
+        return;
+      }
+
+      // Se não há perfil, fazer logout automático
+      if (!data) {
+        console.warn('Profile not found for user, signing out');
+        await supabase.auth.signOut();
+        setUser(null);
+        setProfile(null);
+        toast.error("Perfil não encontrado. Faça login novamente.");
         return;
       }
 
@@ -139,7 +148,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       console.log('Profile set:', data);
     } catch (error) {
       console.warn('Profile fetch failed:', error);
-      // Don't clear profile on timeout - keep existing session
     }
   };
 
@@ -260,17 +268,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     try {
-      // Delete all user data from profiles table
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .delete()
-        .eq('user_id', user.id);
-
-      if (profileError) {
-        console.error('Error deleting profile:', profileError);
-      }
-
-      // Delete all related data
+      // Delete all related data first
       const tables = ['experiences', 'education', 'projects', 'languages', 'certificates', 'publications'];
       
       for (const table of tables) {
@@ -278,6 +276,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           .from(table)
           .delete()
           .eq('user_id', user.id);
+      }
+
+      // Delete profile
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .delete()
+        .eq('user_id', user.id);
+
+      if (profileError) {
+        console.error('Error deleting profile:', profileError);
+        return { error: profileError };
+      }
+
+      // Delete user from auth (requires admin privileges or RLS policy)
+      try {
+        const { error: authError } = await supabase.auth.admin.deleteUser(user.id);
+        if (authError) {
+          console.warn('Could not delete auth user (admin required):', authError);
+        }
+      } catch (adminError) {
+        console.warn('Admin delete not available, user will remain in auth');
       }
 
       // Sign out user

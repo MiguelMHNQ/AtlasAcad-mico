@@ -14,7 +14,7 @@ export default function Privacy() {
             </Button>
           </Link>
           <h1 className="text-4xl font-serif font-bold mb-4">Política de Privacidade</h1>
-          <p className="text-muted-foreground">Última atualização: Dezembro de 2024</p>
+          <p className="text-muted-foreground">Última atualização: Dezembro de 2025</p>
         </div>
 
         <div className="prose prose-slate dark:prose-invert max-w-none space-y-6">

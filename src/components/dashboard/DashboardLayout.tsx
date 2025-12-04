@@ -3,8 +3,11 @@ import { Outlet } from "react-router-dom";
 import { DashboardSidebar } from "./DashboardSidebar";
 import { DashboardHeader } from "./DashboardHeader";
 import { SidebarProvider } from "@/components/ui/sidebar";
+import { useProfileIntegrity } from "@/hooks/useProfileIntegrity";
 
 export function DashboardLayout() {
+  useProfileIntegrity();
+  
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background">
