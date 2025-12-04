@@ -21,7 +21,7 @@ export default function Register() {
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Show loading while checking auth state
+  // Mostrar loading enquanto verifica estado de autenticação
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -30,7 +30,7 @@ export default function Register() {
     );
   }
 
-  // Redirect if already logged in
+  // Redirecionar se já estiver logado
   if (user) {
     return <Navigate to="/dashboard" replace />;
   }
@@ -92,7 +92,7 @@ export default function Register() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Left Side - Branding - FIXED */}
+      {/* Lado Esquerdo - Marca - FIXO */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-[hsl(var(--auth-gradient-start))] to-[hsl(var(--auth-gradient-end))] items-center justify-center p-12 fixed left-0 top-0 h-screen">
         <div className="text-center text-white">
           <div className="flex justify-center mb-6">
@@ -109,7 +109,7 @@ export default function Register() {
         </div>
       </div>
 
-      {/* Right Side - Form - SCROLLABLE */}
+      {/* Lado Direito - Formulário - SCROLLÁVEL */}
       <div className="w-full lg:w-1/2 lg:ml-[50%] min-h-screen overflow-y-auto p-8 bg-background flex items-center justify-center">
         <div className="w-full max-w-md space-y-8">
           <div className="text-center lg:hidden mb-8">
@@ -209,7 +209,14 @@ export default function Register() {
                 htmlFor="terms"
                 className="text-sm leading-tight cursor-pointer"
               >
-                Aceito os Termos de Uso e Política de Privacidade
+                Aceito os{" "}
+                <Link to="/terms" className="text-primary hover:underline">
+                  Termos de Uso
+                </Link>
+                {" "}e{" "}
+                <Link to="/privacy" className="text-primary hover:underline">
+                  Política de Privacidade
+                </Link>
               </label>
             </div>
 

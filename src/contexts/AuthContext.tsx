@@ -230,7 +230,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const updateProfile = async (updates: Partial<Profile>) => {
     if (!user || !profile) {
-      return { error: new Error("Not authenticated") };
+      return { error: new Error("Usuário não autenticado") };
     }
 
     try {
@@ -256,7 +256,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const deleteAccount = async () => {
     if (!user) {
-      return { error: new Error("Not authenticated") };
+      return { error: new Error("Usuário não autenticado") };
     }
 
     try {
@@ -316,7 +316,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 export function useAuth() {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error("useAuth must be used within an AuthProvider");
+    throw new Error("useAuth deve ser usado dentro de um AuthProvider");
   }
   return context;
 }

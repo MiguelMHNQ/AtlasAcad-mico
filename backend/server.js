@@ -10,7 +10,7 @@ app.use(express.json());
 
 
 
-// Welcome email route (for testing)
+// Rota de email de boas-vindas (para testes)
 app.post('/api/auth/welcome', async (req, res) => {
   const { email, nome, tipo_perfil } = req.body;
   
@@ -29,7 +29,7 @@ app.post('/api/auth/welcome', async (req, res) => {
   }
 });
 
-// Health check
+// Verificação de saúde do servidor
 app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'OK', 

@@ -9,12 +9,14 @@ import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { ThemeProvider } from "next-themes";
 
-// Pages
+// Páginas principais
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import NotFound from "./pages/NotFound";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
 
-// Dashboard pages
+// Páginas do dashboard
 import Overview from "./pages/dashboard/Overview";
 import Projects from "./pages/dashboard/Projects";
 import Education from "./pages/dashboard/Education";
@@ -37,11 +39,13 @@ const App = () => (
           <Sonner />
           <BrowserRouter>
             <Routes>
-              {/* Public routes */}
+              {/* Rotas públicas */}
               <Route path="/profile/:userId" element={<PublicProfileWrapper />} />
               <Route path="/search" element={<SearchPage />} />
+              <Route path="/terms" element={<Terms />} />
+              <Route path="/privacy" element={<Privacy />} />
               
-              {/* Auth routes */}
+              {/* Rotas de autenticação */}
               <Route path="/*" element={
                 <AuthProvider>
                   <Routes>
@@ -49,7 +53,7 @@ const App = () => (
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
 
-                    {/* Protected dashboard */}
+                    {/* Dashboard protegido */}
                     <Route path="/dashboard" element={
                       <ProtectedRoute>
                         <DashboardLayout />

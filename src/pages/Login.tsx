@@ -14,7 +14,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Show loading while checking auth state
+  // Mostrar loading enquanto verifica estado de autenticação
   if (authLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
@@ -23,7 +23,7 @@ export default function Login() {
     );
   }
 
-  // Redirect if already logged in
+  // Redirecionar se já estiver logado
   if (user) {
     return <Navigate to="/dashboard" replace />;
   }
@@ -47,7 +47,7 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex">
-      {/* Left Side - Branding */}
+      {/* Lado Esquerdo - Marca */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-[hsl(var(--auth-gradient-start))] to-[hsl(var(--auth-gradient-end))] items-center justify-center p-12">
         <div className="text-center text-white">
           <div className="flex justify-center">
@@ -64,7 +64,7 @@ export default function Login() {
         </div>
       </div>
 
-      {/* Right Side - Form */}
+      {/* Lado Direito - Formulário */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-background">
         <div className="w-full max-w-md space-y-8">          
           <div>
