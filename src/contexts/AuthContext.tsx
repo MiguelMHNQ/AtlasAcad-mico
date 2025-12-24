@@ -47,7 +47,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       try {
-        // Quick session check with timeout for free tier
         const sessionPromise = supabase.auth.getSession();
         const timeoutPromise = new Promise<never>((_, reject) => 
           setTimeout(() => reject(new Error('Session check timeout')), 3000)
@@ -63,7 +62,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
       } catch (error) {
         console.warn('Session check failed, using cached state:', error);
-        // Don't clear user state on timeout - keep existing session if any
       } finally {
         if (mounted) {
           setLoading(false);
@@ -71,10 +69,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     };
 
-    // Initialize auth state
     initAuth();
 
-    // Listen for auth changes with debouncing
     let subscription: any;
     if (supabase) {
       try {
@@ -83,7 +79,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           
           console.log('Auth state changed:', event);
           
-          // Debounce rapid auth changes
           clearTimeout(sessionCheckTimeout);
           sessionCheckTimeout = setTimeout(async () => {
             if (!mounted) return;
@@ -116,7 +111,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       console.log('Fetching profile for userId:', userId);
       
-      // Add timeout for free tier
       const profilePromise = supabase
         .from('profiles')
         .select('*')
@@ -134,13 +128,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return;
       }
 
-      // Se não há perfil, fazer logout automático
+      // Se não há perfil, manter usuário mas sem perfil eim
       if (!data) {
-        console.warn('Profile not found for user, signing out');
-        await supabase.auth.signOut();
-        setUser(null);
+        console.warn('Profile not found for user');
         setProfile(null);
-        toast.error("Perfil não encontrado. Faça login novamente.");
         return;
       }
 
@@ -197,7 +188,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       if (data.user) {
-        // Create profile immediately
         const { error: profileError } = await supabase
           .from('profiles')
           .insert({
@@ -214,7 +204,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           return { error: profileError };
         }
 
-        // Fetch the created profile
         await fetchProfile(data.user.id);
         
         toast.success("Cadastro realizado com sucesso!");
@@ -268,7 +257,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     try {
-      // Delete all related data first
       const tables = ['experiences', 'education', 'projects', 'languages', 'certificates', 'publications'];
       
       for (const table of tables) {
@@ -278,28 +266,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           .eq('user_id', user.id);
       }
 
-      // Delete profile
       const { error: profileError } = await supabase
         .from('profiles')
         .delete()
         .eq('user_id', user.id);
 
       if (profileError) {
-        console.error('Error deleting profile:', profileError);
+        console.error('Erro deletando o profile', profileError);
         return { error: profileError };
       }
 
-      // Delete user from auth (requires admin privileges or RLS policy)
       try {
         const { error: authError } = await supabase.auth.admin.deleteUser(user.id);
         if (authError) {
-          console.warn('Could not delete auth user (admin required):', authError);
+          console.warn('Não foi possivel deletar o auth user (adiminstrador requerido):', authError);
         }
       } catch (adminError) {
-        console.warn('Admin delete not available, user will remain in auth');
+        console.warn('Adiminstrador delete não está disponivel');
       }
 
-      // Sign out user
       await supabase.auth.signOut();
       setUser(null);
       setProfile(null);

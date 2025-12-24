@@ -38,42 +38,38 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <Routes>
-              {/* Rotas públicas */}
-              <Route path="/profile/:userId" element={<PublicProfileWrapper />} />
-              <Route path="/search" element={<SearchPage />} />
-              <Route path="/terms" element={<Terms />} />
-              <Route path="/privacy" element={<Privacy />} />
-              
-              {/* Rotas de autenticação */}
-              <Route path="/*" element={
-                <AuthProvider>
-                  <Routes>
-                    <Route path="/" element={<Navigate to="/login" replace />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
+            <AuthProvider>
+              <Routes>
+                {/* Rotas públicas */}
+                <Route path="/profile/:userId" element={<PublicProfileWrapper />} />
+                <Route path="/search" element={<SearchPage />} />
+                <Route path="/terms" element={<Terms />} />
+                <Route path="/privacy" element={<Privacy />} />
+                
+                {/* Rotas de autenticação */}
+                <Route path="/" element={<Navigate to="/login" replace />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
 
-                    {/* Dashboard protegido */}
-                    <Route path="/dashboard" element={
-                      <ProtectedRoute>
-                        <DashboardLayout />
-                      </ProtectedRoute>
-                    }>
-                      <Route index element={<Overview />} />
-                      <Route path="projetos" element={<Projects />} />
-                      <Route path="formacao" element={<Education />} />
-                      <Route path="experiencia" element={<Experience />} />
-                      <Route path="idiomas" element={<Languages />} />
-                      <Route path="publicacoes" element={<Publications />} />
-                      <Route path="certificados" element={<Certificates />} />
-                      <Route path="configuracoes" element={<Settings />} />
-                    </Route>
+                {/* Dashboard protegido */}
+                <Route path="/dashboard" element={
+                  <ProtectedRoute>
+                    <DashboardLayout />
+                  </ProtectedRoute>
+                }>
+                  <Route index element={<Overview />} />
+                  <Route path="projetos" element={<Projects />} />
+                  <Route path="formacao" element={<Education />} />
+                  <Route path="experiencia" element={<Experience />} />
+                  <Route path="idiomas" element={<Languages />} />
+                  <Route path="publicacoes" element={<Publications />} />
+                  <Route path="certificados" element={<Certificates />} />
+                  <Route path="configuracoes" element={<Settings />} />
+                </Route>
 
-                    <Route path="*" element={<NotFound />} />
-                  </Routes>
-                </AuthProvider>
-              } />
-            </Routes>
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </AuthProvider>
           </BrowserRouter>
         </TooltipProvider>
       </ThemeProvider>

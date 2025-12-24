@@ -40,25 +40,24 @@ export const generateCurriculumPDF = async (profile: any) => {
   const pdf = new jsPDF();
   let yPosition = 25;
   
-  // Gray and white colors
-  const primaryColor = [108, 117, 125]; // Medium gray
+  const primaryColor = [108, 117, 125]; 
   const darkGray = [52, 58, 64];
   const lightGray = [108, 117, 125];
-  const noDataColor = [220, 53, 69]; // Red for no data
+  const noDataColor = [220, 53, 69]; 
   
-  // === HEADER SECTION ===
-  pdf.setFillColor(248, 249, 250); // Light gray background
+  // === HEADER ===
+  pdf.setFillColor(248, 249, 250); 
   pdf.rect(0, 0, 210, 35, 'F');
   
-  // Name
-  pdf.setTextColor(33, 37, 41); // Dark text on light background
+  // Nome
+  pdf.setTextColor(33, 37, 41); 
   pdf.setFontSize(22);
   pdf.setFont('helvetica', 'bold');
   pdf.text(profile.nome.toUpperCase(), 20, 25);
   
   yPosition = 45;
   
-  // === PERSONAL INFO SECTION ===
+  // === BIOGRAFIA ===
   pdf.setTextColor(darkGray[0], darkGray[1], darkGray[2]);
   pdf.setFontSize(11);
   pdf.setFont('helvetica', 'normal');
@@ -94,13 +93,11 @@ export const generateCurriculumPDF = async (profile: any) => {
   
   if (userData.experience.length > 0) {
     userData.experience.forEach((exp: any) => {
-      // Position title
       pdf.setFontSize(12);
       pdf.setFont('helvetica', 'bold');
       pdf.setTextColor(darkGray[0], darkGray[1], darkGray[2]);
       pdf.text(exp.cargo, 25, yPosition);
-      
-      // Company and period
+
       pdf.setFontSize(10);
       pdf.setFont('helvetica', 'bold');
       pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
@@ -206,19 +203,19 @@ export const generateCurriculumPDF = async (profile: any) => {
     yPosition = addNoDataMessage(pdf, yPosition, noDataColor);
   }
   
-  // Check if we need a new page
+  // Verifica se precisa de uma nova página
   if (yPosition > 250) {
     pdf.addPage();
     yPosition = 20;
   }
   
-  // === TWO COLUMN LAYOUT ===
+  // === COLUNAS ===
   const leftColumnX = 20;
   const rightColumnX = 110;
   let leftColumnY = yPosition;
   let rightColumnY = yPosition;
   
-  // === IDIOMAS (Left Column) ===
+  // === IDIOMAS ===
   leftColumnY = addOfficialSectionTwoColumn(pdf, 'IDIOMAS', leftColumnY, leftColumnX, primaryColor);
   
   if (userData.languages.length > 0) {
@@ -238,7 +235,7 @@ export const generateCurriculumPDF = async (profile: any) => {
     leftColumnY = addNoDataMessageTwoColumn(pdf, leftColumnY, leftColumnX, noDataColor);
   }
   
-  // === CERTIFICADOS (Right Column) ===
+  // === CERTIFICADOS ===
   rightColumnY = addOfficialSectionTwoColumn(pdf, 'CERTIFICADOS', rightColumnY, rightColumnX, primaryColor);
   
   if (userData.certificates.length > 0) {
@@ -306,7 +303,7 @@ export const generateCurriculumPDF = async (profile: any) => {
   try {
     pdf.save(fileName);
   } catch (error) {
-    // Fallback: abrir em nova aba se save() falhar
+    // Alternativa: abrir em nova aba se save() falhar
     const pdfBlob = pdf.output('blob');
     const url = URL.createObjectURL(pdfBlob);
     const link = document.createElement('a');
@@ -319,11 +316,11 @@ export const generateCurriculumPDF = async (profile: any) => {
   }
 };
 
-// Helper functions
+// Funções auxiliares
 function addOfficialSection(pdf: jsPDF, title: string, yPosition: number, primaryColor: number[]) {
   yPosition += 15;
   
-  // Section background
+  // Fundo da seção
   pdf.setFillColor(248, 249, 250);
   pdf.rect(15, yPosition - 8, 180, 12, 'F');
   
@@ -332,7 +329,7 @@ function addOfficialSection(pdf: jsPDF, title: string, yPosition: number, primar
   pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
   pdf.text(title, 20, yPosition);
   
-  // Professional line
+  // Linha profissional
   pdf.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
   pdf.setLineWidth(0.5);
   pdf.line(20, yPosition + 2, 190, yPosition + 2);
@@ -343,7 +340,7 @@ function addOfficialSection(pdf: jsPDF, title: string, yPosition: number, primar
 function addOfficialSectionTwoColumn(pdf: jsPDF, title: string, yPosition: number, xPosition: number, primaryColor: number[]) {
   yPosition += 15;
   
-  // Section background
+  // Fundo da seção
   pdf.setFillColor(248, 249, 250);
   pdf.rect(xPosition - 5, yPosition - 8, 85, 12, 'F');
   
@@ -352,7 +349,7 @@ function addOfficialSectionTwoColumn(pdf: jsPDF, title: string, yPosition: numbe
   pdf.setTextColor(primaryColor[0], primaryColor[1], primaryColor[2]);
   pdf.text(title, xPosition, yPosition);
   
-  // Professional line
+  // Linha profissional
   pdf.setDrawColor(primaryColor[0], primaryColor[1], primaryColor[2]);
   pdf.setLineWidth(0.5);
   pdf.line(xPosition, yPosition + 2, xPosition + 80, yPosition + 2);

@@ -2,13 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Definição do sistema de design. Todas as cores, gradientes, fontes, etc devem ser definidas aqui. 
+Todas as cores DEVEM ser HSL. */
 
 @layer base {
   :root {
-    /* Atlas Acadêmico Design System */
     --background: 220 20% 98%;
     --foreground: 220 10% 15%;
 
@@ -18,11 +16,9 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 220 10% 15%;
 
-    /* Primary: Vibrant Blue (#00aaff) */
     --primary: 195 100% 50%;
     --primary-foreground: 0 0% 100%;
 
-    /* Secondary: Blue Gray (#607882) */
     --secondary: 195 14% 44%;
     --secondary-foreground: 0 0% 100%;
 

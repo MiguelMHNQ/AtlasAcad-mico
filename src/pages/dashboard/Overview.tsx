@@ -36,7 +36,7 @@ export default function Overview() {
 
   const handleAddBadge = async () => {
     if (!newBadge.trim()) {
-      toast.error("Digite o nome da badge");
+      toast.error("Digite o nome da competência");
       return;
     }
 
@@ -52,7 +52,7 @@ export default function Overview() {
         toast.error("Erro ao adicionar competência");
       }
     } catch (error) {
-      console.error('Erro ao adicionar badge:', error);
+      console.error('Erro ao adicionar competência:', error);
       toast.error("Erro ao adicionar competência");
     }
   };
@@ -68,7 +68,7 @@ export default function Overview() {
         toast.error("Erro ao remover competência");
       }
     } catch (error) {
-      console.error('Erro ao remover badge:', error);
+      console.error('Erro ao remover competência:', error);
       toast.error("Erro ao remover competência");
     }
   };

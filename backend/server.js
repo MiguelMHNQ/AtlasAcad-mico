@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { sendPasswordResetEmail, sendWelcomeEmail } from './emailService.js';
+import { sendWelcomeEmail } from './emailService.js';
 
 const app = express();
 const PORT = 3002;
@@ -18,7 +18,7 @@ app.post('/api/auth/welcome', async (req, res) => {
     const result = await sendWelcomeEmail(email, nome, tipo_perfil);
     
     if (result.success) {
-      console.log(`📧 Email de boas-vindas enviado para: ${email}`);
+      console.log(`Email de boas-vindas enviado para: ${email}`);
       return res.json({ message: 'Email de boas-vindas enviado!' });
     } else {
       return res.status(500).json({ error: 'Erro ao enviar email' });
@@ -39,7 +39,7 @@ app.get('/api/health', (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 Atlas Acadêmico Backend rodando na porta ${PORT}`);
-  console.log(`📧 Sistema de email configurado`);
-  console.log(`🔗 Health check: http://localhost:${PORT}/api/health`);
+  console.log(`Atlas Acadêmico Backend rodando na porta ${PORT}`);
+  console.log(`Sistema de email configurado`);
+  console.log(`Health check: http://localhost:${PORT}/api/health`);
 });
